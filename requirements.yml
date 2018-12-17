@@ -1,5 +1,5 @@
 ---
-- name: ansible-gnome_shell
+- name: ansible-role-gnome-shell
   scm: git
-  src: git+https://github.com/eddyhub/ansible-gnome_shell.git
+  src: git+https://github.com/unrblt/ansible-role-gnome-shell.git
   version: master
