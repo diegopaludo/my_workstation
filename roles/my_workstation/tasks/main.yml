@@ -31,7 +31,7 @@
 
 - name: update apt cache
   apt: update_cache=yes
-  when: openvpn_repo.changed or docker_repo.changed or virtualbox_repo
+  when: openvpn_repo.changed or docker_repo.changed or virtualbox_repo.changed
 
 - name: packages from backports
   apt:
