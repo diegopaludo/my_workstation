@@ -140,11 +140,6 @@
     line: 'dns=none'
   notify: restart NetworkManager
 
-- name: force whole system use dnsmasq
-  shell: |
-    echo "nameserver 127.0.0.1" > /etc/resolv.conf
-    chattr +i /etc/resolv.conf
-    
 - name: tasks for local user
   include_tasks: user.yml
 

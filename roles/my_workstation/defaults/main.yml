@@ -4,6 +4,7 @@ user_email: ""
 user_username: "paludo"
 
 packages:
+ - vim
  - htop
  - curl
  - build-essential
