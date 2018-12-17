@@ -6,11 +6,6 @@
 
   roles:
     - my_workstation
-    - role: ansible-role-gnome-shell
-      vars:
-        gnome_extension_path: "~/.local/share/gnome-shell/extensions"
-        gnome_extension_owner: "{{ user_username }}"
-        gnome_shell_extensions: [4, 1031, 759, 277, 36, 48]
 
   tasks:
     - name: apt autoclean

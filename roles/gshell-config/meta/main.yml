@@ -1,4 +1,0 @@
----
-dependencies: 
-  - role: my_workstation
-  - role: ansible-role-gnome-shell
