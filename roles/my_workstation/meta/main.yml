@@ -1,6 +1,6 @@
 ---  
 dependencies:
-  - role: "git+https://github.com/eddyhub/ansible-gnome_shell.git"
+  - role: ansible-gnome_shell
     vars:
         gnome_extension_path: "~/.local/share/gnome-shell/extensions"
         gnome_extension_owner: "{{ user_username }}"

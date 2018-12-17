@@ -1,0 +1,5 @@
+---
+- name: ansible-gnome_shell
+  scm: git
+  src: git+https://github.com/eddyhub/ansible-gnome_shell.git
+  version: master
