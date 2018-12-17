@@ -1,0 +1,60 @@
+---
+user_fullname: "Diego Paludo"
+user_email: ""
+user_username: "paludo"
+
+packages:
+ - htop
+ - curl
+ - build-essential
+ - unrar
+ - unzip
+ - less
+ - jq
+ - screen
+ - tmux
+ - apt-transport-https
+ - lsof
+ - software-properties-common
+ - telnet
+ - pwgen
+ - powerline
+ - fonts-powerline
+ - python3-powerline
+ - python-powerline
+ - git
+ - rsync
+ - libappindicator1
+ - libindicator3-7
+ - libappindicator3-1
+ - lm-sensors
+ - dnsmasq
+ - ocsinventory-agent
+ - ufw
+ - gufw
+ - libavahi-compat-libdnssd1
+ - libqt5core5a
+ - libqt5gui5
+ - libqt5network5
+ - libqt5widgets5
+ - gconf-service
+ - gconf2
+ - openvpn
+ - network-manager-openvpn
+ - network-manager-openvpn-gnome
+ - docker-ce
+ - remmina
+ 
+packages_backports:
+ - libssh-4
+ - terminator
+
+ssh_port: "22"
+
+gnome_extension_ids:
+    - 4 # Frippery Panel Favorites
+    - 1031 # TopIcons Plus
+    - 759 # Better Volume Indicator
+    - 277 # Impatience
+    - 36 # Lock Keys
+    - 48 # Trash

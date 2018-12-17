@@ -1,0 +1,153 @@
+---
+- name: OpenVPN repo key
+  apt_key:
+    url: https://swupdate.openvpn.net/repos/repo-public.gpg
+
+- name: add OpenVPN repo
+  apt_repository:
+    repo: deb http://build.openvpn.net/debian/openvpn/stable {{ ansible_distribution_release|lower }} main
+    filename: openvpn
+  register: openvpn_repo
+        
+- name: Docker repo key
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+
+- name: add Docker repo
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release|lower }} stable
+    filename: docker
+  register: docker_repo
+
+- name: Virtualbox repo key
+  apt_key:
+    url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
+
+- name: add Virtualbox repo
+  apt_repository:
+    repo: deb https://download.virtualbox.org/virtualbox/debian {{ ansible_distribution_release|lower }} contrib
+    filename: virtualbox
+  register: virtualbox_repo
+
+- name: update apt cache
+  apt: update_cache=yes
+  when: openvpn_repo.changed or docker_repo.changed or virtualbox_repo
+
+- name: packages from backports
+  apt:
+    name: "{{ packages_backports }}"
+    state: present
+    default_release: "{{ ansible_distribution_release|lower }}-backports"
+    
+- name: install essential packages
+  apt:
+    name: "{{ packages }}"
+    state: present
+
+- name: Install Google Chrome
+  apt:
+    deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+
+- name: Install Skype
+  apt:
+    deb: https://repo.skype.com/latest/skypeforlinux-64.deb
+
+- name: Install Slack
+  apt:
+    deb: https://downloads.slack-edge.com/linux_releases/slack-desktop-3.3.3-amd64.deb    
+
+- name: Install Visual Studio Code
+  apt:
+    deb: https://go.microsoft.com/fwlink/?LinkID=760868
+    
+- name: install awscli
+  pip:
+    name: awscli
+
+- name: configure ufw defaults
+  ufw: direction={{ item.direction }} policy={{ item.policy }}
+  with_items:
+    - { direction: 'incoming', policy: 'deny' }
+    - { direction: 'outgoing', policy: 'allow' }
+  notify: restart ufw
+
+- name: configure ufw rules
+  ufw: rule={{ item.rule }} port={{ item.port }} proto={{ item.proto }}
+  with_items:
+    - { rule: 'limit', port: '{{ ssh_port }}', proto: 'tcp' }
+  notify: restart ufw
+
+- name: enable ufw logging
+  ufw: logging=on
+  notify: restart ufw
+
+- name: enable ufw
+  ufw: state=enabled
+
+- name: configure bash
+  copy:
+    src: custom.sh
+    dest: /etc/profile.d/custom.sh
+    mode: 0755
+    owner: root
+    group: root
+
+- name: configure htop
+  copy:
+    src: htoprc
+    dest: /etc/htoprc
+    mode: 0644
+    owner: root
+    group: root
+
+- name: configure screen
+  copy:
+    src: screenrc
+    dest: /etc/screenrc
+    mode: 0644
+    owner: root
+    group: root
+
+- name: configure vim
+  copy:
+    src: vimrc.local
+    dest: /etc/vim/vimrc.local
+    mode: 0644
+    owner: root
+    group: root
+
+- name: configure systemd-timesyncd
+  blockinfile:
+    path: /etc/systemd/timesyncd.conf
+    insertafter: EOF
+    state: present
+    block: |
+      NTP=pool.ntp.br
+      FallbackNTP=0.debian.pool.ntp.org 1.debian.pool.ntp.org 2.debian.pool.ntp.org 3.debian.pool.ntp.org
+
+- name: copy dnsmasq configs
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: 'google', dest: '/etc/dnsmasq.d/google' }
+  notify: restart dnsmasq
+
+- name: configure Network Manager to doesn't use dnsmasq
+  lineinfile:
+    path: /etc/NetworkManager/NetworkManager.conf
+    insertafter: '[main]'
+    line: 'dns=none'
+  notify: restart NetworkManager
+
+- name: force whole system use dnsmasq
+  shell: |
+    echo "nameserver 127.0.0.1" > /etc/resolv.conf
+    chattr +i /etc/resolv.conf
+    
+- name: tasks for local user
+  include_tasks: user.yml
+
+- name: tasks for gnome-shell
+  include_tasks: gnome-shell.yml
+  

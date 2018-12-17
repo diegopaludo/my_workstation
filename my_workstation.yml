@@ -1,0 +1,12 @@
+---
+- name: My post install configs
+  hosts: localhost
+  connection: local
+  become: true
+
+  roles:
+    - my_workstation
+
+  tasks:
+    - name: apt autoclean
+      apt: autoclean=yes
