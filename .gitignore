@@ -2,4 +2,3 @@
 *.retry
 *.sw*
 ansible.log
-.ansible_facts

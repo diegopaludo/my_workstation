@@ -1,0 +1,31 @@
+---
+- name: Baixa .deb
+  get_url:
+    url: https://repo.skype.com/latest/skypeforlinux-64.deb
+    dest: /tmp/skype.deb
+    force: yes
+
+- name: Obtém lista de dependências do .deb
+  shell: >
+    dpkg --info /tmp/skype.deb
+    | grep '^ Depends:'
+    | sed -e 's/ Depends: //' -e 's/, /\n/g'
+    | awk '{ print $1 }'
+    | tr '\n' '@'
+  register: skype_deps_check
+  changed_when: false
+
+- name: Define variável com lista de dependências
+  set_fact:
+    skype_deps: "{{ skype_deps_check.stdout.rstrip('@').split('@') }}"
+
+- name: Instala dependências
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ skype_deps }}"
+
+- name: Instala .deb
+  apt:
+    deb: /tmp/skype.deb
+    state: present

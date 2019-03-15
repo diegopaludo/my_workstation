@@ -1,0 +1,123 @@
+---
+- name: Mostra a porcentagem da bateria
+  dconf:
+    key: "/org/gnome/desktop/interface/show-battery-percentage"
+    value: "true"
+    state: present
+  become_user: "{{ user_username }}"
+  tags: gnome
+
+- name: Define os icones do nautilus como small
+  dconf:
+    key: "/org/gnome/nautilus/icon-view/default-zoom-level"
+    value: "'small'"
+    state: present
+  become_user: "{{ user_username }}"
+  tags: gnome
+
+- name: Padrao 24h para o relogio
+  dconf:
+    key: "/org/gnome/desktop/interface/clock-format"
+    value: "'24h'"
+    state: present
+  become_user: "{{ user_username }}"
+  tags: gnome
+
+- name: Mostra a data no relogio
+  dconf:
+    key: "/org/gnome/desktop/interface/clock-show-date"
+    value: "true"
+    state: present
+  become_user: "{{ user_username }}"
+  tags: gnome
+
+- name: Nao mostra os segundos
+  dconf:
+    key: "/org/gnome/desktop/interface/clock-show-seconds"
+    value: "false"
+    state: present
+  become_user: "{{ user_username }}"
+  tags: gnome
+
+- name: Configura a extensao LockKeys
+  dconf:
+    key: "/org/gnome/shell/extensions/lockkeys/style"
+    value: "'show-hide'"
+    state: present
+  become_user: "{{ user_username }}"
+  tags: gnome
+
+- name: Configuara o tamanho dos icones da extensao Top Icons
+  dconf:
+    key: "/org/gnome/shell/extensions/topicons/icon-size"
+    value: "18"
+    state: present
+  become_user: "{{ user_username }}"
+  tags: gnome
+
+- name: Configuara o espacamento dos icones da extensao Top Icons
+  dconf:
+    key: "/org/gnome/shell/extensions/topicons/icon-spacing"
+    value: "10"
+    state: present
+  become_user: "{{ user_username }}"
+  tags: gnome
+
+- name: Configuara a opacidade dos icones da extensao Top Icons
+  dconf:
+    key: "/org/gnome/shell/extensions/topicons/icon-opacity"
+    value: "120"
+    state: present
+  become_user: "{{ user_username }}"
+  tags: gnome
+
+- name: Configura a extensao Impatience
+  dconf:
+    key: "/org/gnome/shell/extensions/net/gfxmonk/impatience/speed-factor"
+    value: "0.60"
+    state: present
+  become_user: "{{ user_username }}"
+  tags: gnome
+
+- name: Define o tempo maximo de vida dos arquivos temporarios
+  dconf:
+    key: "/org/gnome/desktop/privacy/old-files-age"
+    value: "uint32 3"
+    state: present
+  become_user: "{{ user_username }}"
+  tags: gnome
+
+- name: Configura o Gnome para remover arquivos temporarios
+  dconf:
+    key: "/org/gnome/desktop/privacy/remove-old-temp-files"
+    value: "true"
+    state: present
+  become_user: "{{ user_username }}"
+  tags: gnome
+
+- name: Configura o Gnome para limpar a lixeira
+  dconf:
+    key: "/org/gnome/desktop/privacy/remove-old-trash-files"
+    value: "true"
+    state: present
+  become_user: "{{ user_username }}"
+  tags: gnome
+
+- name: Desativa os sons de feedback do Gnome
+  dconf:
+    key: "/org/gnome/desktop/sound/input-feedback-sounds"
+    value: "false"
+    state: present
+  become_user: "{{ user_username }}"
+  tags: gnome
+
+- name: Habilita o modo Dark do Gnome
+  blockinfile:
+    path: ~/.config/gtk-3.0/settings.ini
+    insertafter: EOF
+    state: present
+    block: |
+      [Settings]
+      gtk-application-prefer-dark-theme=1
+  become_user: "{{ user_username }}"
+  tags: gnome

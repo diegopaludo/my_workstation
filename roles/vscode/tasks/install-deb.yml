@@ -1,0 +1,48 @@
+---
+- name: Baixa .deb
+  get_url:
+    url: https://go.microsoft.com/fwlink/?LinkID=760868
+    dest: /tmp/code.deb
+    force: yes
+
+- name: Obtém lista de dependências do .deb
+  shell: >
+    dpkg --info /tmp/code.deb
+    | grep '^ Depends:'
+    | sed -e 's/ Depends: //' -e 's/, /\n/g'
+    | awk '{ print $1 }'
+    | tr '\n' '@'
+  register: code_deps_check
+  changed_when: false
+
+- name: Define variável com lista de dependências
+  set_fact:
+    code_deps: "{{ code_deps_check.stdout.rstrip('@').split('@') }}"
+
+- name: Instala dependências
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ code_deps }}"
+
+- name: Instala .deb
+  apt:
+    deb: /tmp/code.deb
+    state: present
+
+- name: Instala extensoes
+  shell: code --install-extension "{{ extensions }}"
+  loop:
+    - bat67.markdown-extension-pack
+    - donjayamanne.git-extension-pack
+    - vscoss.vscode-ansible
+    - ms-vscode.csharp
+    - peterjausovec.vscode-docker
+    - editorconfig.editorconfig
+    - ms-kubernetes-tools.vscode-kubernetes-tools
+    - ms-python.python
+    - timonwong.shellcheck
+    - mauve.terraform
+    - bbenoist.vagrant
+    - vscode-icons-team.vscode-icons
+    - redhat.vscode-yaml

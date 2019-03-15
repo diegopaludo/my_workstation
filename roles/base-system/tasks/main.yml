@@ -1,0 +1,123 @@
+---
+- name: Configura sysctl
+  sysctl:
+    name: vm.swappiness
+    value: 10
+    sysctl_file: /etc/sysctl.d/90-ansible-workstation.conf
+    state: present
+    reload: yes
+  tags: base:sysctl
+
+- name: Configura porta do SSH
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^Port "
+    line: "Port {{ base_ssh_port }}"
+    validate: "sshd -t -f %s"
+  notify: Reinicia SSH
+  tags: base:ssh
+
+- name: Configura tamanho máximo de logs do Journal (systemd)
+  ini_file:
+    path: /etc/systemd/journald.conf
+    section: Journal
+    option: SystemMaxUse
+    value: "{{ base_journald_system_max_use }}"
+    create: no
+    backup: yes
+    state: present
+  notify: Reinicia systemd-journald
+  tags: base:journald
+
+- name: Configura insultos do sudo
+  copy:
+    content: "Defaults  insults\n"
+    dest: /etc/sudoers.d/insults
+    owner: root
+    group: root
+    mode: 0440
+    validate: "visudo -cf %s"
+  tags: base:sudo
+
+- name: Configura alternatives
+  alternatives:
+    name: "{{ item.name }}"
+    path: "{{ item.path }}"
+  loop:
+    - name: editor
+      path: /usr/bin/vim.basic
+  tags: base:alternatives
+
+- name: Instala AWS CLI
+  pip:
+    name: awscli
+  tags: base:aws
+
+- name: Configura politica padrao do UFW
+  ufw: "direction={{ item.direction }} policy={{ item.policy }}"
+  loop:
+    - direction: incoming
+      policy: deny
+    - direction: outgoing
+      policy: allow
+  notify: Reinicia UFW
+  tags: base:ufw
+
+- name: Configura regra para SSH
+  ufw: "rule={{ item.rule }} port={{ item.port }} proto={{ item.proto }}"
+  loop:
+    - rule: limit
+      port: "{{ base_ssh_port }}"
+      proto: tcp
+  notify: Reinicia UFW
+  tags: base:ufw
+
+- name: Habilita log para UFW
+  ufw: logging=on
+  notify: Reinicia UFW
+  tags: base:ufw
+
+- name: Configura systemd-timesyncd com NTP.br
+  blockinfile:
+    path: /etc/systemd/timesyncd.conf
+    insertafter: EOF
+    state: present
+    block: |
+      NTP=pool.ntp.br
+      FallbackNTP=0.debian.pool.ntp.org 1.debian.pool.ntp.org 2.debian.pool.ntp.org 3.debian.pool.ntp.org
+  tags: base:ntp
+
+- name: Configura dnsmasq
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "google", dest: "/etc/dnsmasq.d/google" }
+  notify: Reinicia dnsmasq
+  tags: base:dnsmasq
+
+- name: Configura Network Manager para gerir DNS
+  lineinfile:
+    path: /etc/NetworkManager/NetworkManager.conf
+    insertafter: "[main]"
+    line: "dns=none"
+  notify: Reinicia Network Manager
+  tags: base:dnsmasq
+
+- name: Configura htop para todo sistema
+  copy:
+    src: htoprc
+    dest: /etc/htoprc
+    mode: 0644
+    owner: root
+    group: root
+  tags: base:htop
+
+- name: Configura screen para todo sistema
+  copy:
+    src: screenrc
+    dest: /etc/screenrc
+    mode: 0644
+    owner: root
+    group: root
+  tags: base:screen

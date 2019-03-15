@@ -1,0 +1,25 @@
+---
+- name: Reinicia SSH
+  service:
+    name: ssh
+    state: restarted
+
+- name: Reinicia systemd-journald
+  service:
+    name: systemd-journald
+    state: restarted
+
+- name: Reinicia UFW
+  service:
+    name: ufw
+    state: restarted
+
+- name: Reinicia dnsmasq
+  service:
+    name: dnsmasq
+    state: restarted
+
+- name: Reinicia Network Manager
+  service:
+    name: NetworkManager
+    state: restarted

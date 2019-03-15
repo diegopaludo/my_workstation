@@ -1,0 +1,9 @@
+---
+- name: Verifica se Slack está instalado
+  shell: dpkg-query --show slack-desktop || true
+  register: slack_check
+  changed_when: false
+
+# Tarefas de instalação
+- include: install-deb.yml
+  when: "'no packages found matching' in slack_check.stderr"

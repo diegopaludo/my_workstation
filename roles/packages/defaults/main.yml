@@ -1,0 +1,146 @@
+---
+# Variáveis "pkg_*": listas de pacotes independentes e/ou que são dependências de
+# várias aplicações simultaneamente. Vários provavelmente já estarão instalados,
+# mas não custa documentá-los.
+
+# Nota: os pacotes são instalados com *no-install-recommends*!
+
+pkg_base:
+  - bash-completion
+  - ca-certificates
+  - cryptsetup
+  - curl
+  - dirmngr
+  - dkms
+  - docker-ce
+  - exo-utils
+  - less
+  - screen
+  - software-properties-common
+  - tmux
+  - tree
+  - wget
+  - xbacklight
+
+pkg_dev:
+  - gedit
+  - gedit-developer-plugins
+  - vim
+  - build-essential
+
+pkg_sysadmin:
+  - cifs-utils
+  - conntrack
+  - dnsmasq
+  - gdebi-core
+  - cracklib-runtime
+  - exfat-fuse
+  - exfat-utils
+  - gparted
+  - htop
+  - iotop
+  - iptraf-ng
+  - lm-sensors
+  - lshw
+  - lsof
+  - mtr-tiny
+  - netcat-openbsd
+  - network-manager-openvpn
+  - network-manager-openvpn-gnome
+  - ocsinventory-agent
+  - openssh-client
+  - openssh-server
+  - openvpn
+  - rsync
+  - system-config-printer-gnome
+  - system-config-printer-udev
+  - traceroute
+  - whois
+  - telnet
+  - ufw
+  - gufw
+
+pkg_media:
+  - flameshot
+  - fonts-dejavu
+  - fonts-dejavu-extra
+  - gimp
+  - pavucontrol
+  - ristretto
+  - shotwell
+  - vlc
+  - vlc-plugin-notify
+
+pkg_misc:
+  - ack
+  - atool
+  - colordiff
+  - cups-pdf
+  - dconf-editor
+  - dos2unix
+  - evince
+  - firefox
+  - fonts-powerline
+  - gconf-service
+  - gconf2
+  - gvfs-backends
+  - ipcalc
+  - keepassx
+  - makepasswd
+  - multitail
+  - p7zip
+  - p7zip-full
+  - p7zip-rar
+  - pbzip2
+  - pigz
+  - powerline
+  - python3-powerline
+  - python-powerline
+  - pwgen
+  - remmina
+  - remmina-plugin-rdp
+  - remmina-plugin-vnc
+  - libfreerdp-plugins-standard
+  - rename
+  - thunar
+  - thunar-archive-plugin
+  - transmission-gtk
+  - unar
+  - unrar
+  - unzip
+  - wmctrl
+  - xclip
+  - zenity
+
+pkg_backports:
+  - libssh-4
+  - terminator
+
+# Pacotes que serão removidos via 'purge'.
+pkg_purge:
+  # Xubuntu-desktop
+  - gmusicbrowser
+  - gnumeric
+  - mousepad
+  - pidgin
+  # "Command not found"
+  - command-not-found
+  - command-not-found-data
+  - python3-commandnotfound
+  - sessioninstaller
+  # Outros
+  - xul-ext-ubufox
+
+# Pacotes extras, para flexibilidade.
+# pkg_extra:
+#   - foo
+#   - bar
+pkg_extra:
+  - libappindicator1
+  - libindicator3-7
+  - libappindicator3-1
+  - libavahi-compat-libdnssd1
+  - libqt5core5a
+  - libqt5gui5
+  - libqt5network5
+  - libqt5widgets5

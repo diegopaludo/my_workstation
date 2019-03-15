@@ -1,0 +1,118 @@
+---
+- name: Instala a chave do repositorio OpenVPN
+  apt_key:
+    url: https://swupdate.openvpn.net/repos/repo-public.gpg
+
+- name: Configura repositorio OpenVPN
+  apt_repository:
+    repo: deb http://build.openvpn.net/debian/openvpn/stable {{ ansible_distribution_release|lower }} main
+    filename: openvpn
+
+- name: Instala a chave do repositorio Docker
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+
+- name: Configura repositorio Docker
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release|lower }} stable
+    filename: docker
+
+- name: Habilita PPA do Git
+  apt_repository:
+    repo: ppa:git-core/ppa
+    state: present
+    update_cache: yes
+  tags:
+    - pkg:git
+    - pkg:git:ppa
+    - pkg:dev
+
+- name: Atualiza cache do APT
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  tags: pkg:update
+
+- name: Instala pacotes básicos
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: no
+  loop: "{{ pkg_base }}"
+  tags: pkg:base
+
+- name: Instala pacotes relacionados ao Git
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: no
+  loop:
+    - git
+    - git-doc
+    - git-gui
+    - gitk
+    - qgit
+    - tig
+  tags:
+    - pkg:git
+    - pkg:dev
+
+- name: Instala ferramentas de desenvolvimento
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: no
+  loop: "{{ pkg_dev }}"
+  tags: pkg:dev
+
+- name: Instala ferramentas de administração de sistema
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: no
+  loop: "{{ pkg_sysadmin }}"
+  tags: pkg:sysadmin
+
+- name: Instala ferramentas de gráficos e multimídia
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: no
+  loop: "{{ pkg_media }}"
+  tags: pkg:media
+
+- name: Instala pacotes utilitários
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: no
+  loop: "{{ pkg_misc }}"
+  tags:
+    - pkg:misc
+    - pkg:utils
+
+- name: Instala pacotes backports
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: no
+    default_release: "{{ ansible_distribution_release|lower }}-backports"
+  loop: "{{ pkg_backports }}"
+  tags:
+    - pkg:backports
+
+- name: Remove pacotes selecionados
+  apt:
+    name: "{{ item }}"
+    state: absent
+    purge: yes
+  loop: "{{ pkg_purge }}"
+  tags: pkg:purge
+
+- name: Instala pacotes extras
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: no
+  loop: "{{ pkg_extra }}"
+  tags: pkg:extra

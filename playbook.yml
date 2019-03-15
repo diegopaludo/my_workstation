@@ -1,0 +1,40 @@
+---
+- name: Ansible Workstation
+  hosts: "{{ target_host | default('localhost') }}"
+  connection: local
+
+  roles:
+    - role: packages
+      tags: pkg
+    - role: base-system
+      tags: base
+    - role: user
+      tags: user
+    - role: jq
+      tags: jq
+    - role: borg
+      tags: borg
+    - role: ctop
+      tags: ctop
+    - role: terraform
+      tags: terraform
+    - role: virtualbox
+      tags: vbox
+    - role: vagrant
+      tags: vagrant
+    - role: rclone
+      tags: rclone
+    - role: chrome
+      tags: chrome
+    - role: skype
+      tags: skype
+    - role: slack
+      tags: slack
+    - role: vscode
+      tags: vscode
+    - role: spotify
+      tags: spotify
+
+  tasks:
+    - name: apt autoclean
+      apt: autoclean=yes

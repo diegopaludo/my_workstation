@@ -1,0 +1,31 @@
+---
+- name: Baixa .deb
+  get_url:
+    url: https://downloads.slack-edge.com/linux_releases/slack-desktop-3.3.8-amd64.deb
+    dest: /tmp/slack.deb
+    force: yes
+
+- name: Obtém lista de dependências do .deb
+  shell: >
+    dpkg --info /tmp/slack.deb
+    | grep '^ Depends:'
+    | sed -e 's/ Depends: //' -e 's/, /\n/g'
+    | awk '{ print $1 }'
+    | tr '\n' '@'
+  register: slack_deps_check
+  changed_when: false
+
+- name: Define variável com lista de dependências
+  set_fact:
+    slack_deps: "{{ slack_deps_check.stdout.rstrip('@').split('@') }}"
+
+- name: Instala dependências
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ slack_deps }}"
+
+- name: Instala .deb
+  apt:
+    deb: /tmp/slack.deb
+    state: present
