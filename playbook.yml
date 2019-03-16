@@ -1,7 +1,19 @@
 ---
-- name: Ansible Workstation
+- name: My Workstation
   hosts: "{{ target_host | default('localhost') }}"
   connection: local
+
+  vars:
+    gnome_extension_ids:
+      - 4 # Frippery Panel Favorites
+      - 1031 # TopIcons Plus
+      - 759 # Better Volume Indicator
+      - 277 # Impatience
+      - 36 # Lock Keys
+      - 48 # Trash
+      - 1015 # Gravatar
+      - 905 # Refresh Wifi Connections
+      - 7 # Removable Drive Menu
 
   roles:
     - role: packages
@@ -34,6 +46,7 @@
       tags: vscode
     - role: spotify
       tags: spotify
+    - role: gnome_extensions
 
   tasks:
     - name: apt autoclean
