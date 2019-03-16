@@ -12,19 +12,16 @@ pkg_base:
   - curl
   - dirmngr
   - dkms
-  - docker-ce
-  - exo-utils
   - less
   - screen
   - software-properties-common
   - tmux
   - tree
   - wget
-  - xbacklight
 
 pkg_dev:
   - gedit
-  - gedit-developer-plugins
+  - gedit-plugins
   - vim
   - build-essential
 
@@ -52,8 +49,6 @@ pkg_sysadmin:
   - openssh-server
   - openvpn
   - rsync
-  - system-config-printer-gnome
-  - system-config-printer-udev
   - traceroute
   - whois
   - telnet
@@ -61,13 +56,9 @@ pkg_sysadmin:
   - gufw
 
 pkg_media:
-  - flameshot
   - fonts-dejavu
   - fonts-dejavu-extra
   - gimp
-  - pavucontrol
-  - ristretto
-  - shotwell
   - vlc
   - vlc-plugin-notify
 
@@ -79,7 +70,7 @@ pkg_misc:
   - dconf-editor
   - dos2unix
   - evince
-  - firefox
+  - firefox-esr
   - fonts-powerline
   - gconf-service
   - gconf2
@@ -97,24 +88,21 @@ pkg_misc:
   - python3-powerline
   - python-powerline
   - pwgen
-  - remmina
-  - remmina-plugin-rdp
-  - remmina-plugin-vnc
   - libfreerdp-plugins-standard
   - rename
-  - thunar
-  - thunar-archive-plugin
   - transmission-gtk
   - unar
   - unrar
   - unzip
-  - wmctrl
   - xclip
   - zenity
 
 pkg_backports:
   - libssh-4
   - terminator
+  - remmina
+  - remmina-plugin-rdp
+  - remmina-plugin-vnc
 
 # Pacotes que serão removidos via 'purge'.
 pkg_purge:
@@ -132,9 +120,6 @@ pkg_purge:
   - xul-ext-ubufox
 
 # Pacotes extras, para flexibilidade.
-# pkg_extra:
-#   - foo
-#   - bar
 pkg_extra:
   - libappindicator1
   - libindicator3-7
