@@ -8,25 +8,6 @@
     repo: deb http://build.openvpn.net/debian/openvpn/stable {{ ansible_distribution_release|lower }} main
     filename: openvpn
 
-- name: Instala a chave do repositorio Docker
-  apt_key:
-    url: https://download.docker.com/linux/debian/gpg
-
-- name: Configura repositorio Docker
-  apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release|lower }} stable
-    filename: docker
-
-- name: Habilita PPA do Git
-  apt_repository:
-    repo: ppa:git-core/ppa
-    state: present
-    update_cache: yes
-  tags:
-    - pkg:git
-    - pkg:git:ppa
-    - pkg:dev
-
 - name: Atualiza cache do APT
   apt:
     update_cache: yes
