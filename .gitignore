@@ -2,3 +2,6 @@
 *.retry
 *.sw*
 ansible.log
+roles/gnome_extensions
+.vagrant
+Vagrantfile
