@@ -1,20 +1,10 @@
 #!/bin/sh
 
-die()
-{
-    [ -n "$1" ] && echo "$*"
-    exit 1
-}
+apt-get update && apt-get -y full-upgrade
+apt-get -y install python3-pip apt-transport-https
 
-echo "Verificando Ansible"
+pip3 install ansible -U
 
-ansible --version || die "Fatal: erro ao executar o Ansible. Verifique seu ambiente."
+ansible-galaxy install --force -r requirements.yml -p roles/
 
-echo
-echo "Instalando roles externas"
-
-ansible-galaxy install --force -r requirements.yml -p roles/ \
-    || die "Fatal: erro ao instalar roles externas."
-
-echo
-echo "Feito! :-)"
+exit 0
