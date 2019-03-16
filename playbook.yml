@@ -20,8 +20,6 @@
       tags: pkg
     - role: base-system
       tags: base
-    - role: user
-      tags: user
     - role: jq
       tags: jq
     - role: borg
@@ -46,6 +44,8 @@
       tags: vscode
     - role: spotify
       tags: spotify
+    - role: user
+      tags: user
     - role: gnome_extensions
 
   tasks:
