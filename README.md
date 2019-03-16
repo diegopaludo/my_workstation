@@ -12,12 +12,21 @@ De qualquer forma, leia as tasks e execute com cautela para evitar problemas em 
 ## Pré-requisitos
 
 - Ansible 2.5+
+- Role: https://github.com/jaredhocutt/ansible-gnome-extensions
 
 ## Uso
 
 Antes, assegure que o Ansible esteja instalado :-)
 
+No _primeiro uso_, instale as roles externas:
+
 ```console
-$ wget -nv https://github.com/diegopaludo/my_workstation/archive/master.zip -O - | tar -xzf -
+$ wget -nv https://github.com/diegopaludo/my_workstation/archive/master.tar.gz -O - | tar -xzf -
+$ cd my_workstation-master
+$ ./bootstrap.sh
+```
+Execute o playbook com:
+
+```console
 $ ansible-playbook playbook.yml
 ```
