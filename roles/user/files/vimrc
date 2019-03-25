@@ -1,15 +1,5 @@
 let g:skip_defaults_vim = 0
 
-" Vim5 and later versions support syntax highlighting. Uncommenting the next
-" line enables syntax highlighting by default.
-syntax on
-
-" If using a dark background within the editing area and syntax highlighting
-" turn on this option as well
-set background=dark
-
-" Uncomment the following to have Vim jump to the last position when
-" reopening a file
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
@@ -39,10 +29,6 @@ syntax on
 colorscheme elflord
 set background=dark
 
-set number
-set ruler
-set title
-
 " Tabs e espaços
 set expandtab
 set nostartofline
@@ -50,21 +36,9 @@ set shiftwidth=4
 set tabstop=4
 
 " Cursor e colunas
-" set cursorline
-set cursorcolumn
-
-" Pathogen
-if filereadable(expand($HOME . "/.vim/autoload/pathogen.vim"))
-    execute pathogen#infect()
-endif
-
-" Vim 7.2 não suporta 'colorcolumn'
-if exists('+colorcolumn')
-  set colorcolumn=80
-endif
-
-highlight CursorColumn ctermbg=DarkGray
-highlight ColorColumn ctermbg=DarkGray
+set cursorline
+"set cursorcolumn
+hi CursorLine term=bold cterm=bold guibg=Grey40
 
 " Sintaxe de arquivos
 au BufNewFile,BufRead composer.lock set filetype=json
@@ -74,8 +48,13 @@ au BufNewFile,BufRead Vagrantfile set filetype=ruby
 au BufNewFile,BufRead *.textile set filetype=redminewiki
 au BufNewFile,BufRead *.tfstate set filetype=json
 
+" Pathogen
+if filereadable(expand($HOME . "/.vim/autoload/pathogen.vim"))
+    execute pathogen#infect()
+endif
+
 " Needs by Airline
-"set laststatus=2
-"set t_Co=256
-"set noshowmode
-"let g:airline_powerline_fonts = 1
+set laststatus=2
+set t_Co=256
+set noshowmode
+let g:airline_powerline_fonts = 1
