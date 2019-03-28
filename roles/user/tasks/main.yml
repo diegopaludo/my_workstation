@@ -56,7 +56,8 @@
       eval "`dircolors`"
 
       alias ls='ls $COR'
-      alias l='ls $COR -lahF'
+      alias ll='ls $COR -lahF'
+      alias l='ls $COR -lhF'
 
       alias grep='grep $COR'
       alias egrep='egrep $COR'
