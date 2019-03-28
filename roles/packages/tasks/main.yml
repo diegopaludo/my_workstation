@@ -8,6 +8,17 @@
     repo: deb http://build.openvpn.net/debian/openvpn/stable {{ ansible_distribution_release|lower }} main
     filename: openvpn
 
+- name: Habilita PPA do Git
+  apt_repository:
+    repo: ppa:git-core/ppa
+    state: present
+    update_cache: yes
+  when: {{ ansible_distribution|lower }} == "ubuntu"
+  tags:
+    - pkg:git
+    - pkg:git:ppa
+    - pkg:dev
+
 - name: Atualiza cache do APT
   apt:
     update_cache: yes
