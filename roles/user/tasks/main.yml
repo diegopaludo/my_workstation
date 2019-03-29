@@ -7,12 +7,14 @@
   loop:
     - autoload
     - bundle
+  become: yes
   become_user: "{{ user_username }}"
 
 - name: Instala Vim Pathogen Plugin Manager
   get_url:
     url: https://tpo.pe/pathogen.vim
     dest: ~/.vim/autoload/pathogen.vim
+  become: yes
   become_user: "{{ user_username }}"
 
 - name: Instala plugins para o vim
@@ -28,6 +30,7 @@
       dest: ~/.vim/bundle/vim-virtualenv
     - repo: https://github.com/tpope/vim-fugitive.git
       dest: ~/.vim/bundle/vim-fugitive
+  become: yes
   become_user: "{{ user_username }}"
 
 - name: Configura o Vim
@@ -36,6 +39,7 @@
     dest: ~/.vimrc
     owner: "{{ user_username }}"
     mode: 0644
+  become: yes
   become_user: "{{ user_username }}"
 
 - name: Configura o gitignore
@@ -44,6 +48,7 @@
     dest: ~/.gitconfig
     owner: "{{ user_username }}"
     mode: 0644
+  become: yes
   become_user: "{{ user_username }}"
 
 - name: Configura o Bash
@@ -72,6 +77,7 @@
       }
 
       PS1='\[\e[01;32m\][\[\e[0m\]\[\e[01;37m\]\u@\h:\[\e[0m\]\[\e[0;33m\]\w\[\e[0m\]\[\e[00;37m\] \[\e[01;31m\]$(parse_git_branch "(%s)" )\[\e[00m\]\[\e[01;32m\]]\[\e[0m\]\[\e[01;37m\]\$\[\e[0m\] '
+  become: yes
   become_user: "{{ user_username }}"
 
 - name: Configura dark mode no Gnome
@@ -82,6 +88,7 @@
     block: |
       [Settings]
       gtk-application-prefer-dark-theme=1
+  become: yes
   become_user: "{{ user_username }}"
 
 - name: Configura Gnome
@@ -108,3 +115,5 @@
       value: "true"
     - key: "/org/gnome/desktop/sound/input-feedback-sounds"
       value: "false"
+  become: yes
+  become_user: "{{ user_username }}"
