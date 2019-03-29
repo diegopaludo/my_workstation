@@ -1,4 +1,12 @@
 ---
+- name: Configura repositorio oficial
+  template:
+    src: sources.list.j2
+    dest: /etc/apt/sources.list
+    mode: 0644
+    owner: root
+    group: root
+
 - name: Instala a chave do repositorio OpenVPN
   apt_key:
     url: https://swupdate.openvpn.net/repos/repo-public.gpg
@@ -12,8 +20,7 @@
   apt_repository:
     repo: ppa:git-core/ppa
     state: present
-    update_cache: yes
-  when: {{ ansible_distribution|lower }} == "ubuntu"
+  when: "{{ ansible_distribution|lower }} == ubuntu"
   tags:
     - pkg:git
     - pkg:git:ppa
