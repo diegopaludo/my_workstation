@@ -75,6 +75,7 @@ pkg_misc:
   - gconf-service
   - gconf2
   - gvfs-backends
+  - gnome-shell-extensions
   - ipcalc
   - keepassx
   - makepasswd
