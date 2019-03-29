@@ -31,10 +31,8 @@
     state: present
 
 - name: Instala extensoes
-  shell: code --install-extension "{{ extensions }}"
+  shell: code --install-extension "{{ item }}"
   loop:
-    - bat67.markdown-extension-pack
-    - donjayamanne.git-extension-pack
     - vscoss.vscode-ansible
     - ms-vscode.csharp
     - peterjausovec.vscode-docker
@@ -46,3 +44,10 @@
     - bbenoist.vagrant
     - vscode-icons-team.vscode-icons
     - redhat.vscode-yaml
+    - DavidAnson.vscode-markdownlint
+    - yzhang.markdown-all-in-one
+    - donjayamanne.githistory
+    - eamodio.gitlens
+    - codezombie.gitignore
+  become: yes
+  become_user: "{{ user_username }}"
