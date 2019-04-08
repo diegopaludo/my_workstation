@@ -34,7 +34,6 @@
   shell: code --install-extension "{{ item }}"
   loop:
     - vscoss.vscode-ansible
-    - ms-vscode.csharp
     - peterjausovec.vscode-docker
     - editorconfig.editorconfig
     - ms-kubernetes-tools.vscode-kubernetes-tools
@@ -45,9 +44,6 @@
     - vscode-icons-team.vscode-icons
     - redhat.vscode-yaml
     - DavidAnson.vscode-markdownlint
-    - yzhang.markdown-all-in-one
-    - donjayamanne.githistory
     - eamodio.gitlens
-    - codezombie.gitignore
   become: yes
   become_user: "{{ user_username }}"
