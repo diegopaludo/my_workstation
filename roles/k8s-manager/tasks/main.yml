@@ -1,0 +1,55 @@
+---
+- name: Verifica se o kubectl esta instalado
+  shell: kubectl version --client --short || true
+  ignore_errors: true
+  register: kubectl_install
+  changed_when: false
+
+- block:
+  - name: Verifica o release mais recente do Kubernetes
+    shell: curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt
+    register: k8s_version
+
+  - name: Instala o kubectl
+    get_url:
+      url: "https://storage.googleapis.com/kubernetes-release/release/{{ k8s_version.stdout }}/bin/linux/amd64/kubectl"
+      dest: /usr/local/bin/kubectl
+      mode: 0755
+
+  - name: Configura bash completion
+    shell: kubectl completion bash > /etc/bash_completion.d/kubectl
+  when: "'kubectl: not found' in kubectl_install.stderr"
+
+- name: Verifica se o kops esta instalado
+  shell: kops version
+  ignore_errors: true
+  register: kops_install
+  changed_when: false
+
+- block:
+  - name: Verifica o release mais recente do Kops
+    shell: curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4
+    register: kops_version
+
+  - name: Instala kops
+    get_url:
+      url: "https://github.com/kubernetes/kops/releases/download/{{ kops_version.stdout }}/kops-linux-amd64"
+      dest: /usr/local/bin/kops
+      mode: 0755
+
+  - name: Configura bash completion
+    shell: kops completion bash > /etc/bash_completion.d/kops
+  when: "'kops: not found' in kops_install.stderr"
+
+- name: Instala aws-iam-authenticator
+  get_url:
+    url: https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/linux/amd64/aws-iam-authenticator
+    dest: /usr/local/bin/aws-iam-authenticator
+    mode: 0755
+
+- name: Link para heptio-authenticator-aws
+  file:
+    src: /usr/local/bin/aws-iam-authenticator
+    dest: /usr/local/bin/heptio-authenticator-aws
+    state: link
+
