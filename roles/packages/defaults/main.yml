@@ -44,7 +44,6 @@ pkg_sysadmin:
   - netcat-openbsd
   - network-manager-openvpn
   - network-manager-openvpn-gnome
-  - ocsinventory-agent
   - openssh-client
   - openssh-server
   - openvpn
@@ -70,15 +69,11 @@ pkg_misc:
   - dconf-editor
   - dos2unix
   - evince
-  - firefox-esr
   - fonts-powerline
   - gconf-service
   - gconf2
   - gvfs-backends
   - gnome-shell-extensions
-  - ipcalc
-  - keepassx
-  - makepasswd
   - multitail
   - p7zip
   - p7zip-full
@@ -89,13 +84,10 @@ pkg_misc:
   - python3-powerline
   - python-powerline
   - pwgen
-  - libfreerdp-plugins-standard
-  - rename
   - transmission-gtk
   - unar
   - unrar
   - unzip
-  - xclip
   - zenity
 
 pkg_backports:

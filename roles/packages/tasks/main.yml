@@ -6,21 +6,26 @@
     mode: 0644
     owner: root
     group: root
+  register: sourceslist
 
-- name: Instala a chave do repositorio OpenVPN
-  apt_key:
-    url: https://swupdate.openvpn.net/repos/repo-public.gpg
+- block:
+  - name: Instala a chave do repositorio OpenVPN
+    apt_key:
+      url: https://swupdate.openvpn.net/repos/repo-public.gpg
 
-- name: Configura repositorio OpenVPN
-  apt_repository:
-    repo: deb http://build.openvpn.net/debian/openvpn/stable {{ ansible_distribution_release|lower }} main
-    filename: openvpn
+  - name: Configura repositorio OpenVPN
+    apt_repository:
+      repo: deb http://build.openvpn.net/debian/openvpn/stable {{ ansible_distribution_release|lower }} main
+      filename: openvpn
+  when: ansible_distribution == "Debian"
+  register: openvpnlist
 
 - name: Habilita PPA do Git
   apt_repository:
     repo: ppa:git-core/ppa
     state: present
-  when: "{{ ansible_distribution|lower }} == ubuntu"
+  when: ansible_distribution == "Ubuntu"
+  register: gitlist
   tags:
     - pkg:git
     - pkg:git:ppa
@@ -29,15 +34,14 @@
 - name: Atualiza cache do APT
   apt:
     update_cache: yes
-    cache_valid_time: 3600
+  when: sourceslist.changed or openvpnlist.changed or gitlist.changed
   tags: pkg:update
 
 - name: Instala pacotes básicos
   apt:
-    name: "{{ item }}"
+    name: "{{ pkg_base }}"
     state: present
     install_recommends: no
-  loop: "{{ pkg_base }}"
   tags: pkg:base
 
 - name: Instala pacotes relacionados ao Git
@@ -58,60 +62,53 @@
 
 - name: Instala ferramentas de desenvolvimento
   apt:
-    name: "{{ item }}"
+    name: "{{ pkg_dev }}"
     state: present
     install_recommends: no
-  loop: "{{ pkg_dev }}"
   tags: pkg:dev
 
 - name: Instala ferramentas de administração de sistema
   apt:
-    name: "{{ item }}"
+    name: "{{ pkg_sysadmin }}"
     state: present
     install_recommends: no
-  loop: "{{ pkg_sysadmin }}"
   tags: pkg:sysadmin
 
 - name: Instala ferramentas de gráficos e multimídia
   apt:
-    name: "{{ item }}"
+    name: "{{ pkg_media }}"
     state: present
     install_recommends: no
-  loop: "{{ pkg_media }}"
   tags: pkg:media
 
 - name: Instala pacotes utilitários
   apt:
-    name: "{{ item }}"
+    name: "{{ pkg_misc }}"
     state: present
     install_recommends: no
-  loop: "{{ pkg_misc }}"
   tags:
     - pkg:misc
     - pkg:utils
 
 - name: Instala pacotes backports
   apt:
-    name: "{{ item }}"
+    name: "{{ pkg_backports }}"
     state: present
     install_recommends: no
     default_release: "{{ ansible_distribution_release|lower }}-backports"
-  loop: "{{ pkg_backports }}"
   tags:
     - pkg:backports
 
 - name: Remove pacotes selecionados
   apt:
-    name: "{{ item }}"
+    name: "{{ pkg_purge }}"
     state: absent
     purge: yes
-  loop: "{{ pkg_purge }}"
   tags: pkg:purge
 
 - name: Instala pacotes extras
   apt:
-    name: "{{ item }}"
+    name: "{{ pkg_extra }}"
     state: present
     install_recommends: no
-  loop: "{{ pkg_extra }}"
   tags: pkg:extra
