@@ -90,15 +90,25 @@
     - pkg:misc
     - pkg:utils
 
-- name: Instala pacotes backports
+- name: Instala pacotes backports quando for Debian
   apt:
     name: "{{ pkg_backports }}"
     state: present
     install_recommends: no
     default_release: "{{ ansible_distribution_release|lower }}-backports"
+  when: ansible_distribution == "Debian"
   tags:
     - pkg:backports
 
+- name: Instala pacotes backports quando for Ubuntu
+  apt:
+    name: "{{ pkg_backports }}"
+    state: present
+    install_recommends: no
+  when: ansible_distribution == "Ubuntu"
+  tags:
+    - pkg:backports
+    
 - name: Remove pacotes selecionados
   apt:
     name: "{{ pkg_purge }}"
