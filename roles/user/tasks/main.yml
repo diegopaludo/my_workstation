@@ -90,6 +90,7 @@
       gtk-application-prefer-dark-theme=1
   become: yes
   become_user: "{{ user_username }}"
+  when: ansible_distribution == "Debian"
 
 - name: Configura Gnome
   dconf:
