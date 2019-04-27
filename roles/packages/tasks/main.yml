@@ -17,9 +17,9 @@
     apt_repository:
       repo: deb http://build.openvpn.net/debian/openvpn/stable {{ ansible_distribution_release|lower }} main
       filename: openvpn
+    register: openvpnlist
   when: ansible_distribution == "Debian"
-  register: openvpnlist
-
+  
 - name: Habilita PPA do Git
   apt_repository:
     repo: ppa:git-core/ppa
