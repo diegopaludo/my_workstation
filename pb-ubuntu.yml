@@ -47,8 +47,6 @@
       tags: spotify
     - role: user
       tags: user
-    - role: gnome_extensions
-      when: ansible_distribution == "Debian"
 
   tasks:
     - name: apt autoclean

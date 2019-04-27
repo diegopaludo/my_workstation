@@ -1,0 +1,54 @@
+---
+- name: My Workstation
+  hosts: "{{ target_host | default('localhost') }}"
+  connection: local
+
+  vars:
+    gnome_extension_ids:
+      - 4 # Frippery Panel Favorites
+      - 1031 # TopIcons Plus
+      - 759 # Better Volume Indicator
+      - 277 # Impatience
+      - 36 # Lock Keys
+      - 48 # Trash
+      - 1015 # Gravatar
+      - 905 # Refresh Wifi Connections
+      - 7 # Removable Drive Menu
+
+  roles:
+    - role: packages
+      tags: pkg
+    - role: base-system
+      tags: base
+    - role: jq
+      tags: jq
+    - role: borg
+      tags: borg
+    - role: ctop
+      tags: ctop
+    - role: terraform
+      tags: terraform
+    - role: k8s-manager
+    - role: virtualbox
+      tags: vbox
+    - role: vagrant
+      tags: vagrant
+    - role: rclone
+      tags: rclone
+    - role: chrome
+      tags: chrome
+    - role: skype
+      tags: skype
+    - role: slack
+      tags: slack
+    - role: vscode
+      tags: vscode
+    - role: spotify
+      tags: spotify
+    - role: user
+      tags: user
+    - role: gnome_extensions
+
+  tasks:
+    - name: apt autoclean
+      apt: autoclean=yes
