@@ -28,6 +28,7 @@
       tags: ctop
     - role: terraform
       tags: terraform
+    - role: k8s-manager
     - role: virtualbox
       tags: vbox
     - role: vagrant
@@ -47,6 +48,7 @@
     - role: user
       tags: user
     - role: gnome_extensions
+      when: ansible_distribution == "Debian"
 
   tasks:
     - name: apt autoclean
