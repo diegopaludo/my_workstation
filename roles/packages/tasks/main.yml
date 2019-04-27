@@ -12,7 +12,7 @@
   - name: Instala a chave do repositorio OpenVPN
     apt_key:
       url: https://swupdate.openvpn.net/repos/repo-public.gpg
-
+  
   - name: Configura repositorio OpenVPN
     apt_repository:
       repo: deb http://build.openvpn.net/debian/openvpn/stable {{ ansible_distribution_release|lower }} main
