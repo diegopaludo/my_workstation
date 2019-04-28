@@ -23,6 +23,7 @@
   apt:
     name: "{{ item }}"
     state: present
+  ignore_errors: true
   loop: "{{ slack_deps }}"
 
 - name: Instala .deb
