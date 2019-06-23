@@ -1,0 +1,22 @@
+---
+- name: Instala dnsmasq
+  apt:
+    name: dnsmasq
+    state: present
+    
+- name: Configura dnsmasq
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "google", dest: "/etc/dnsmasq.d/google" }
+  notify: Reinicia dnsmasq
+  tags: dnsmasq
+
+- name: Configura Network Manager para gerir DNS
+  lineinfile:
+    path: /etc/NetworkManager/NetworkManager.conf
+    insertafter: "[main]"
+    line: "dns=none"
+  notify: Reinicia Network Manager
+  tags: dnsmasq

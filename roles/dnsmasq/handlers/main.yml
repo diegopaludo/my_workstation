@@ -1,0 +1,10 @@
+---
+- name: Reinicia dnsmasq
+  service:
+    name: dnsmasq
+    state: restarted
+
+- name: Reinicia Network Manager
+  service:
+    name: NetworkManager
+    state: restarted

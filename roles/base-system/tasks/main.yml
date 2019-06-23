@@ -66,23 +66,6 @@
       FallbackNTP=0.debian.pool.ntp.org 1.debian.pool.ntp.org 2.debian.pool.ntp.org 3.debian.pool.ntp.org
   tags: base:ntp
 
-- name: Configura dnsmasq
-  copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-  with_items:
-    - { src: "google", dest: "/etc/dnsmasq.d/google" }
-  notify: Reinicia dnsmasq
-  tags: base:dnsmasq
-
-- name: Configura Network Manager para gerir DNS
-  lineinfile:
-    path: /etc/NetworkManager/NetworkManager.conf
-    insertafter: "[main]"
-    line: "dns=none"
-  notify: Reinicia Network Manager
-  tags: base:dnsmasq
-
 - name: Configura htop para todo sistema
   copy:
     src: htoprc

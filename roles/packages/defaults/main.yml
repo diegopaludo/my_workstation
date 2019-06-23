@@ -28,7 +28,6 @@ pkg_dev:
 pkg_sysadmin:
   - cifs-utils
   - conntrack
-  - dnsmasq
   - gdebi-core
   - cracklib-runtime
   - exfat-fuse
