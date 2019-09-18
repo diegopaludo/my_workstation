@@ -1,53 +1,64 @@
 [user]
-    name = {{ user_fullname }}
-    email = {{ user_email }}
+  name = {{ user_fullname }}
+  email = {{ user_email }}
+  signingkey = {{ user_gpg_signingkey }}
+
+[gpg]
+  program = /usr/bin/gpg
+
+[commit]
+  gpgsign = true
+
+[tag]
+  forceSignAnnotated = true
 
 [core]
   editor = vim
   whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 
 [push]
-    default = simple
+  default = simple
 
 [merge]
-	defaultToUpstream = true
+  defaultToUpstream = true
 
 [web]
-    browser = google-chrome
+  browser = google-chrome
 
 [color]
-    ui = auto
+  ui = auto
 
 [gui]
-	# Ref: https://www.tcl.tk/man/tcl8.5/TkCmd/font.htm#M26
-	fontui = -family \"DejaVu Sans\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
-	fontdiff = -family \"DejaVu Sans Mono\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
-	spellingdictionary = none
+  # Ref: https://www.tcl.tk/man/tcl8.5/TkCmd/font.htm#M26
+  fontui = -family \"DejaVu Sans\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
+  fontdiff = -family \"DejaVu Sans Mono\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
+  spellingdictionary = none
 
 [color "branch"]
-    current = yellow bold
-    local = green bold
-    remote = cyan bold
+  current = yellow bold
+  local = green bold
+  remote = cyan bold
 
 [color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red bold
-    new = green bold
-    whitespace = red reverse
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+  whitespace = red reverse
 
 [color "status"]
-    added = green bold
-    changed = yellow bold
-    untracked = red bold
+  added = green bold
+  changed = yellow bold
+  untracked = red bold
 
 [alias]
-    b = branch
-    ck = checkout
-    s = status
-    d = diff
-    c = commit
-    cm = commit -m
-    cam = commit -am
-    manda = push origin
-    pega = pull origin
+  b = branch
+  ck = checkout
+  s = status
+  d = diff
+  c = commit
+  cm = commit -m
+  cam = commit -am
+  manda = push origin
+  pega = pull origin
+  fa = fetch --all
