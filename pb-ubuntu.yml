@@ -22,8 +22,6 @@
       tags: base
     - role: jq
       tags: jq
-    - role: borg
-      tags: borg
     - role: ctop
       tags: ctop
     - role: terraform
