@@ -20,6 +20,7 @@
       tags: pkg
     - role: base-system
       tags: base
+    - role: ehfive-bt
     - role: jq
       tags: jq
     - role: ctop
